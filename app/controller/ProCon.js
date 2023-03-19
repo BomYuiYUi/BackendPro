@@ -1,7 +1,7 @@
-const Book = require("../model/BookModel.js")
+const Product = require("../model/ProModel.js")
 
 exports.findAll = (req,res)=>{
-  Book.getAll((err,data)=>{
+  Product.getAll((err,data)=>{
         if(err)
           res.status(500).send({
             message: err.message
@@ -11,16 +11,16 @@ exports.findAll = (req,res)=>{
 };
 
 exports.findOne = (req,res)=>{
-  Book.findById(req.params.bookId ,(err,data)=>{
+  Product.findById(req.params.ProId ,(err,data)=>{
     if(err){
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Book with id ${req.params.bookId}.`
+          message: `Not found Book with id ${req.params.ProId}.`
         });
       }
       else{
         res.status(500).send({
-          message: "Error retrieving Book with id " + req.params.bookId
+          message: "Error retrieving Book with id " + req.params.ProId
         });
       }
     } 
