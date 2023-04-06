@@ -28,7 +28,7 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     // Check if the user exists in the database
-    db.query('SELECT * FROM customer WHERE username = ?', [username], async (error, results) => {
+    db.query('SELECT * FROM customers WHERE username = ?', [username], async (error, results) => {
         if (error) {
             console.log(error);
             res.status(500).send('Internal server error');
@@ -49,15 +49,23 @@ app.post('/login', async (req, res) => {
     });
 });
 app.post('/register', (req, res) => {
-    const { username, password,name,Lname,address } = req.body;
-
-    bcrypt.hash(password, 10, (err, hash) => {
+    const { username, password,name,lastname,email,address,tel } = req.body;
+    db.query('SELECT * FROM customers WHERE username = ?', [username], async (error, results) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send('Internal server error');
+    } else if (!(username&& password&&name&&lastname&&email&&address&&tel)) {
+      res.status(500).send('All input requied');
+    } else if (results.length === 1) {
+        res.status(500).send('user already exists Please login');
+    } else{
+      bcrypt.hash(password, 10, (err, hash) => {
         if (err) {
             console.log(err);
             res.status(500).json({ message: 'Internal server error2' });
         } else {
-            const newUser = { username, password: hash ,name,Lname,address};
-            db.query('INSERT INTO customer SET ?', newUser, (error, results, fields) => {
+            const newUser = { username, password: hash ,name,lastname,email,address,tel};
+            db.query('INSERT INTO customers SET ?', newUser, (error, results, fields) => {
                 if (error) {
                     console.log(error);
                     res.status(500).json({ message: 'Internal server error3' });
@@ -67,6 +75,9 @@ app.post('/register', (req, res) => {
                 }
             });
         }
+    });
+
+    }
     });
 });
 
@@ -82,7 +93,7 @@ app.get('/auth', (req, res) => {
           res.status(401).json({ message: 'Invalid authorization token' });
         } else {
           const { username } = decoded;
-          db.query('SELECT * FROM customer WHERE username = ?', username, (error, results, fields) => {
+          db.query('SELECT * FROM customers WHERE username = ?', username, (error, results, fields) => {
             if (error) {
               console.log(error);
               res.status(500).json({ message: 'Internal server error' });
