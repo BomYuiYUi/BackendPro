@@ -62,7 +62,7 @@ app.post('/register', (req, res) => {
                     console.log(error);
                     res.status(500).json({ message: 'Internal server error3' });
                 } else {
-                    const token = jwt.sign({ username }, jwt_secret,{expiresIn: 1});
+                    const token = jwt.sign({ username }, jwt_secret,{expiresIn: '1hr'});
                     res.json({ token });
                 }
             });
@@ -89,7 +89,7 @@ app.get('/auth', (req, res) => {
             } else if (results.length === 0) {
               res.status(401).json({ message: 'Invalid authorization token' });
             } else {
-              res.json(results);
+              res.json(results[0]);
             }
           });
         }
