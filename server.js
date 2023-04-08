@@ -109,6 +109,6 @@ app.get('/auth', (req, res) => {
   });
 
 
-require("./app/routes/Proroutes.js")(app);
+require("./app/routes/Routes.js")(app);
 
 app.listen(3000, () => console.log('Server is running on port 3000'));
