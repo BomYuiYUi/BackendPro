@@ -2,8 +2,8 @@ const db = require("../model/db.js");
 
 exports.addCart = (req,res) =>{
     try{
-        const {username,ProId,ProImg,ProName,ProQty,ProPrice} = req.body;
-        const newCart = {username,ProId, ProImg,ProName,ProQty,ProPrice}
+        const {username,ProID,ProImg,ProName,ProQty,ProPrice} = req.body;
+        const newCart = {username,ProID, ProImg,ProName,ProQty,ProPrice}
         db.query('INSERT INTO carts SET ?', newCart, (error, results)=>{
             if (error) {
                 console.log(error);
