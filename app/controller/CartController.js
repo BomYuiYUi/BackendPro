@@ -18,6 +18,39 @@ exports.addCart = (req,res) =>{
     }
 }
 
+exports.DelOneCart = (req,res) =>{
+    try{
+        db.query('DELETE FROM carts WHERE CartId = ?', req.params.CartId, (error, results)=>{
+            if (error) {
+                console.log(error);
+                res.status(500).json({ message: 'can not Delete Product in cart' });
+            } else {
+                res.json({message: 'complete'});
+            }
+        });
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+exports.DelCart = (req,res) =>{
+    try{
+        const {username} = req.body;
+        db.query('DELETE FROM carts WHERE username = ?', [username], (error, results)=>{
+            if (error) {
+                console.log(error);
+                res.status(500).json({ message: 'can not Delete Cart' });
+            } else {
+                res.json({message: 'complete'});
+            }
+        });
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
 exports.getAllProduct = (req,res) =>{
     try{
         const {username} = req.body;
