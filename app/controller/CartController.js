@@ -36,8 +36,7 @@ exports.DelOneCart = (req,res) =>{
 
 exports.DelCart = (req,res) =>{
     try{
-        const {username} = req.body;
-        db.query('DELETE FROM carts WHERE username = ?', [username], (error, results)=>{
+        db.query('DELETE FROM carts WHERE username = ?', req.params.username, (error, results)=>{
             if (error) {
                 console.log(error);
                 res.status(500).json({ message: 'can not Delete Cart' });
