@@ -29,16 +29,17 @@ exports.createOrder = (req,res) =>{
 }
 exports.createOrderDetail = (req,res) =>{
   try{
-    const{OrderId,ProId,ProImg,ProName,ProQty,ProPrice} = req.body;
-    const newOrder = {OrderId,ProId,ProImg,ProName,ProQty,ProPrice}
-      db.query('INSERT INTO orderdetail SET ?',newOrder,(error,result)=>{
+    const orders = req.body;
+    for (let i = 0; i < orders.length; i++) {
+      const order = orders[i];
+      db.query('INSERT INTO orderdetail SET ?',order,(error,result)=>{
         if (error) {
           console.log(error);
           res.status(500).json({ message: 'can not add product to Orderdetail' });
-      } else {
-        res.json({message: 'complete'});
       }
       });
+    }
+      res.json({message: 'complete'});
 
   }
   catch(err){
