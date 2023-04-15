@@ -38,6 +38,7 @@ app.post('/login', async (req, res) => {
             // Verify password
             const user = results[0];
             const passwordMatch = await bcrypt.compare(password, user.password);
+            console.log(passwordMatch)
             if (passwordMatch) {
                 // Generate JWT
                 const token = jwt.sign({ username: user.username }, jwt_secret,{expiresIn: '1hr'});
