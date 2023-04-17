@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 exports.editProfile = (req,res) =>{
     try{
         const {username,name,lastname,email,address,tel} = req.body;
+        console.log(req.body)
         db.query('UPDATE customers SET name = ?, lastname = ?, email = ?, address = ?,tel = ? WHERE username = ?',[name,lastname,email,address,tel,username], (error, results)=>{
             if (error) {
                 console.log(error);
